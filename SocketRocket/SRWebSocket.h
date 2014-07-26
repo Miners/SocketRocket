@@ -111,6 +111,7 @@ extern NSString *const SRHTTPResponseErrorKey;
 
 @interface NSURLRequest (CertificateAdditions)
 
+@property (nonatomic, assign, readonly) BOOL SR_validateCertificates;
 @property (nonatomic, retain, readonly) NSArray *SR_SSLPinnedCertificates;
 
 @end
@@ -119,6 +120,7 @@ extern NSString *const SRHTTPResponseErrorKey;
 
 @interface NSMutableURLRequest (CertificateAdditions)
 
+@property (nonatomic, assign) BOOL SR_validateCertificates;
 @property (nonatomic, retain) NSArray *SR_SSLPinnedCertificates;
 
 @end

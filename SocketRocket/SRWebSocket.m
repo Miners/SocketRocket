@@ -557,6 +557,8 @@ static __strong NSData *CRLFCRLF;
         // If we're using pinned certs, don't validate the certificate chain
         if ([_urlRequest SR_SSLPinnedCertificates].count) {
             [SSLOptions setValue:[NSNumber numberWithBool:NO] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
+        } else {
+            [SSLOptions setValue:[NSNumber numberWithBool:[_urlRequest SR_validateCertificates]] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
         }
         
 #if DEBUG
@@ -1566,6 +1568,11 @@ static const size_t SRFrameHeaderOverhead = 32;
     return [NSURLProtocol propertyForKey:@"SR_SSLPinnedCertificates" inRequest:self];
 }
 
+- (BOOL)SR_validateCertificates
+{
+    return [[NSURLProtocol propertyForKey:@"SR_validateCertificates" inRequest:self] boolValue];
+}
+
 @end
 
 @implementation  NSMutableURLRequest (CertificateAdditions)
@@ -1578,6 +1585,16 @@ static const size_t SRFrameHeaderOverhead = 32;
 - (void)setSR_SSLPinnedCertificates:(NSArray *)SR_SSLPinnedCertificates;
 {
     [NSURLProtocol setProperty:SR_SSLPinnedCertificates forKey:@"SR_SSLPinnedCertificates" inRequest:self];
+}
+
+- (BOOL)SR_validateCertificates
+{
+    return [[NSURLProtocol propertyForKey:@"SR_validateCertificates" inRequest:self] boolValue];
+}
+
+- (void)setSR_validateCertificates:(BOOL)SR_validateCertificates;
+{
+    [NSURLProtocol setProperty:@(SR_validateCertificates) forKey:@"SR_validateCertificates" inRequest:self];
 }
 
 @end
